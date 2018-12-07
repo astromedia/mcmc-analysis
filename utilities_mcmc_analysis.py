@@ -101,7 +101,11 @@ class MCMCConfiguration(object):
     def set_nthreads(self, nthreads):
         self.nthreads = nthreads
         assert type(self.nthreads) is int
-    
+        
+    def set_stepssave(self, stepssave):
+        self.stepssave = stepssave
+        assert type(self.stepssave) is int
+        
     def set_burning_step_start(self, burning_step_start):
         self.burning_step_start = burning_step_start
         assert type(self.burning_step_start) is int
@@ -450,6 +454,7 @@ def mcmc_analysis(mcmc_config, data, model_function, param_info_wod):
     nsteps = mcmc_config.nsteps
     ndim = len(param_priors)
     nthreads = mcmc_config.nthreads
+    stepssave = mcmc_config.stepssave
     mcmc_config.set_ndim(ndim)
 
     new_MCMC = mcmc_config.redo_MCMC
@@ -479,7 +484,7 @@ def mcmc_analysis(mcmc_config, data, model_function, param_info_wod):
             for i, result in enumerate(mcmc_sampler.sample(init_pos, iterations=tbd_steps)):
                 cstep = i
                 print_progress(cstep+1, prev_steps, nsteps)
-                if (i+1)%100 == 0:    
+                if (i+1)%stepssave == 0:    
                     mcmc_chain, mcmc_lnpro = update_chain(mcmc_sampler, cstep, prev_steps, prev_chain, prev_lnpro)
                     save_chain_file(mcmc_config, mcmc_chain, mcmc_lnpro, verbose=False)
 
