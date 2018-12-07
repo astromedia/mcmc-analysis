@@ -1,7 +1,5 @@
 # MCMC analysis #
 
-- - - -
-
 Code to perform MCMC sampling of the posterior probability distribution of the model parameter space, given a generic model function. It is prepared to work with large datasets, complex modeling, or very long runs.
 
 * The code allows to start, stop, or load existing chains.
